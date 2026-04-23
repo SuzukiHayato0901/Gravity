@@ -97,3 +97,7 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+Gravity/Library/
+Gravity/Temp/Burst/burst-aotbmhoi8xj.htc/lib_burst_generated_part_980427a8dd28167a01719079bf496bbc.obj
+Gravity/Temp/
+Gravity/UserSettings/
