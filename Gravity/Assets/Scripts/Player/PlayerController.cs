@@ -50,11 +50,7 @@ public class PlayerController : MonoBehaviour
     private void ApplyMovement(Vector3 direction)
     {
         // 水平方向の速度を適用
-        rb.linearVelocity = new Vector3(
-            direction.x * moveSpeed,
-            rb.linearVelocity.y,
-            direction.z * moveSpeed
-        );
+        rb.linearVelocity = new Vector3( direction.x * moveSpeed, rb.linearVelocity.y, direction.z * moveSpeed);
     }
 
     // 回転を適用
@@ -74,6 +70,7 @@ public class PlayerController : MonoBehaviour
     {
         // 入力が少しでもあればRunをtrue、なければfalse
         animator.SetBool("Run", direction.sqrMagnitude > 0.01f);
+        animator.SetBool("Jump", !isGrounded); // ジャンプ中はJumpをtrueにする
     }
 
     private void Update()
