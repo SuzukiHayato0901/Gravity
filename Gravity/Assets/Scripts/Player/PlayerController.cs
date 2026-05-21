@@ -5,18 +5,19 @@ using DG.Tweening;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
+    private Vector2 moveInput;      // ç§»å‹•å…¥åŠ›
+    private Vector3 lastMoveInput;  // å‰å›ç§»å‹•æ–¹å‘
+
     private InputAction moveAction;
     private InputAction jumpAction;
-    private Rigidbody rb;           // RigidbodyƒRƒ“ƒ|[ƒlƒ“ƒg
-    private Animator animator;      // AnimatorƒRƒ“ƒ|[ƒlƒ“ƒg
-    private Vector3 lastMoveInput;  // ‘O‰ñ‚ÌˆÚ“®“ü—Í‚ğ•Û‘¶‚·‚é•Ï”
+    private Rigidbody rb;
+    private Animator animator;
 
-    private bool isGrounded;        // ’n–Ê‚É‚¢‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
+    private bool isGrounded;
 
     [SerializeField] float moveSpeed = 10f;
-
-    [SerializeField] float jumpForce = 5f;          // ƒWƒƒƒ“ƒv‚Ì—Í
-    [SerializeField] float rotationDuration = 0.2f; // ‰ñ“]‚ÌŠÔ
+    [SerializeField] float jumpForce = 5f;
+    [SerializeField] float rotationDuration = 0.2f;
 
     private void Start()
     {
@@ -26,69 +27,76 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
 
-       DOTween.Init(); // DOTween‚Ì‰Šú‰»
+        DOTween.Init();
     }
 
-    // ˆÚ“®‚Í•¨—‰‰Z‚Ås‚¤‚½‚ßAFixedUpdate‚Åˆ—
+    // ç‰©ç†ç§»å‹•
     private void FixedUpdate()
     {
-        Vector3 moveInput = GetMoveInput();
+        Vector3 direction = GetMoveInput();
 
-        ApplyMovement(moveInput);
-        ApplyRotation(moveInput);
-        UpdateAnimation(moveInput);
+        ApplyMovement(direction);
+        ApplyRotation(direction);
+        UpdateAnimation(direction);
     }
 
-    // “ü—Í‚©‚çˆÚ“®•ûŒü‚ğæ“¾
     private Vector3 GetMoveInput()
     {
-        Vector2 input = moveAction.ReadValue<Vector2>();
-        return new Vector3(input.x, 0f, input.y);
+        return new Vector3(moveInput.x, 0f, moveInput.y).normalized;
     }
 
-    // ˆÚ“®‚ğ“K—p
+    // ç§»å‹•
     private void ApplyMovement(Vector3 direction)
     {
-        // …•½•ûŒü‚Ì‘¬“x‚ğ“K—p
-        rb.linearVelocity = new Vector3( direction.x * moveSpeed, rb.linearVelocity.y, direction.z * moveSpeed);
+        rb.linearVelocity = new Vector3(direction.x * moveSpeed, rb.linearVelocity.y, direction.z * moveSpeed);
     }
 
-    // ‰ñ“]‚ğ“K—p
+    // å›è»¢
     private void ApplyRotation(Vector3 direction)
     {
-        // “ü—Í‚ª‚ ‚é‚©‚ÂA‘O‰ñ‚Æ“ü—Í•ûŒü‚ª•Ï‚í‚Á‚½‚¾‚¯‰ñ“]
-        if (direction.sqrMagnitude > 0.01f && direction != lastMoveInput)
+        // å…¥åŠ›ãŒã‚ã‚‹æ™‚ã ã‘å›è»¢
+        if (direction.sqrMagnitude > 0.01f)
         {
-            transform.DOKill(); // d•¡–½—ß‚ğ–h~
-            transform.DORotateQuaternion(Quaternion.LookRotation(direction), rotationDuration);
-            lastMoveInput = direction;
+            // åŒã˜æ–¹å‘ãªã‚‰å›è»¢ã—ãªã„
+            if ((direction - lastMoveInput).sqrMagnitude > 0.001f)
+            {
+                transform.DOKill();
+
+                transform.DORotateQuaternion(Quaternion.LookRotation(direction), rotationDuration);
+
+                lastMoveInput = direction;
+            }
         }
     }
 
-    // ƒAƒjƒ[ƒVƒ‡ƒ“‚ğXV
+    // ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
     private void UpdateAnimation(Vector3 direction)
     {
-        // “ü—Í‚ª­‚µ‚Å‚à‚ ‚ê‚ÎRun‚ğtrueA‚È‚¯‚ê‚Îfalse
         animator.SetBool("Run", direction.sqrMagnitude > 0.01f);
-        animator.SetBool("Jump", !isGrounded); // ƒWƒƒƒ“ƒv’†‚ÍJump‚ğtrue‚É‚·‚é
+
+        animator.SetBool("Jump", !isGrounded);
     }
 
     private void Update()
     {
+        moveInput = moveAction.ReadValue<Vector2>();
+
         Junp();
     }
 
-    // ƒWƒƒƒ“ƒvˆ—
+    // ã‚¸ãƒ£ãƒ³ãƒ—
     public void Junp()
     {
-        if (jumpAction.triggered && isGrounded)
+        if (jumpAction.triggered &&
+            isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
 
-    // ’n–Ê”»’è
-    private void OnCollisionEnter(Collision collision)
+    // åœ°é¢åˆ¤å®š
+    private void OnCollisionEnter(
+        Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
@@ -96,7 +104,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // ’n–Ê‚©‚ç—£‚ê‚½‚Æ‚«‚Ì”»’è
     private void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
