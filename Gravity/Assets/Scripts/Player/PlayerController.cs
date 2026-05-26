@@ -5,27 +5,41 @@ using DG.Tweening;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-    private Vector2 moveInput;      // 移動入力
-    private Vector3 lastMoveInput;  // 前回移動方向
+    [Header("移動設定")]
+    [SerializeField] float moveSpeed = 10f;         // 移動速度
+    [SerializeField] float jumpForce = 5f;          // ジャンプの力
+    [SerializeField] float rotationDuration = 0.2f; // 振り向き速度
+    [SerializeField] PlayerCamera playerCamera;     // カメラの参照
 
-    private InputAction moveAction;
-    private InputAction jumpAction;
-    private Rigidbody rb;
-    private Animator animator;
+    // 入力
+    private InputAction moveAction;     // 移動入力アクション
+    private InputAction jumpAction;     // ジャンプ入力アクション
+    private Vector2 moveInput;          // 移動入力の値
+    private Vector3 lastMoveInput;      // 前回の移動入力の値
 
-    private bool isGrounded;
+    // コンポーネント
+    private Rigidbody rb;           // リジッドボディコンポーネント
+    private Animator animator;      // アニメーターコンポーネント
 
-    [SerializeField] float moveSpeed = 10f;
-    [SerializeField] float jumpForce = 5f;
-    [SerializeField] float rotationDuration = 0.2f;
+    // 状態
+    private bool isGrounded;    // 地面に接地しているかどうか
 
     private void Start()
     {
+        // 入力アクションの取得
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
 
+        // リジッドボディとアニメーターの取得
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+
+        // マウスカーソルを非表示にする
+        Cursor.visible = false;
+
+        // マウスカーソルを画面中央にロックして動かないようにする
+        Cursor.lockState = CursorLockMode.Locked;
+
 
         DOTween.Init();
     }
@@ -42,7 +56,12 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 GetMoveInput()
     {
-        return new Vector3(moveInput.x, 0f, moveInput.y).normalized;
+        // カメラの前方向と右方向を取得
+        Vector3 cameraForward = Vector3.Scale(playerCamera.transform.forward, new Vector3(1, 0, 1)).normalized;
+        Vector3 cameraRight = playerCamera.transform.right;
+
+        // 入力にカメラの向きを掛け合わせる
+        return (cameraForward * moveInput.y + cameraRight * moveInput.x).normalized;
     }
 
     // 移動
@@ -81,22 +100,21 @@ public class PlayerController : MonoBehaviour
     {
         moveInput = moveAction.ReadValue<Vector2>();
 
-        Junp();
+        Jump();
     }
 
     // ジャンプ
-    public void Junp()
+    private void Jump()
     {
-        if (jumpAction.triggered &&
-            isGrounded)
+        if (jumpAction.triggered && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
 
     // 地面判定
-    private void OnCollisionEnter(
-        Collision collision)
+    private void OnCollisionEnter(Collision collision)
+
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
