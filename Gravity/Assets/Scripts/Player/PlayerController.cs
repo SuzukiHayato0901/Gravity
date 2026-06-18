@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float moveSpeed = 10f;         // 移動速度
     [SerializeField] float jumpForce = 5f;          // ジャンプの力
     [SerializeField] float rotationDuration = 0.2f; // 振り向き速度
-    [SerializeField] PlayerCamera playerCamera;     // カメラの参照
+    [SerializeField]  PlayerCamera playerCamera;     // カメラの参照
 
     // 入力
     private InputAction moveAction;     // 移動入力アクション

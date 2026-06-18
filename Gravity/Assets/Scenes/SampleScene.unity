@@ -532,6 +532,9 @@ MonoBehaviour:
   mouseSensitivity: 3
   pitchMin: -80
   pitchMax: 60
+  normaloffset: {x: 0, y: 3, z: -5}
+  reverseOffset: {x: 0, y: -3, z: -5}
+  offsetDuration: 0.5
   yaw: 0
   pitch: 0
 --- !u!1 &410087039
@@ -894,9 +897,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3995720064970690214, guid: 1d18f2757d70d6546af90938dbbc1d98, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1031297015}
-    - targetCorrespondingSourceObject: {fileID: 3995720064970690214, guid: 1d18f2757d70d6546af90938dbbc1d98, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1031297016}
   m_SourcePrefab: {fileID: 100100000, guid: 1d18f2757d70d6546af90938dbbc1d98, type: 3}
 --- !u!1 &1031297005 stripped
 GameObject:
@@ -1018,30 +1018,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.28
-  m_Height: 1.6519992
+  m_Height: 1.884752
   m_Direction: 1
-  m_Center: {x: 0, y: 0.9843081, z: 0}
---- !u!65 &1031297016
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1031297005}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.5435283, y: 0.14619255, z: 0.32038864}
-  m_Center: {x: 0.003916621, y: 0.09152466, z: -0.010600522}
+  m_Center: {x: 0, y: 0.8679317, z: 0}
 --- !u!4 &1031297017 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4339348627803264028, guid: 1d18f2757d70d6546af90938dbbc1d98, type: 3}
@@ -1061,6 +1040,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravityPower: 9.81
   flipDuration: 0.3
+  playerCamera: {fileID: 330585550}
 --- !u!1 &1576942793
 GameObject:
   m_ObjectHideFlags: 0

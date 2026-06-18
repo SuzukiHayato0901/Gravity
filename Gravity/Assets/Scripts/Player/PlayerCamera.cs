@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 public class PlayerCamera : MonoBehaviour
 {
@@ -12,14 +13,31 @@ public class PlayerCamera : MonoBehaviour
     public float pitchMin = -80f;           // 上下の最小角度
     public float pitchMax = 60f;            // 上下の最大角度
 
+    [Header("カメラオフセット")]
+    [SerializeField] private Vector3 normaloffset = new Vector3(0f, 3f, -5f);   // 通常時のカメラオフセット
+    [SerializeField] private Vector3 reverseOffset = new Vector3(0f, -3f, -5f);  // 重力反転時のカメラオフセット
+    [SerializeField] private float offsetDuration = 0.5f;                       // オフセットの切り替えにかかる時間
+
     public float yaw = 0f;     // 左右回転
     public float pitch = 0f;   // 上下回転
+
+    private Vector3 currentOffset;                  // 現在のカメラオフセット
+    private GravityController gravityController;  // 重力制御クラスの参照
 
     void Start()
     {
         // マウスカーソルを非表示にし、画面中央にロックして動かないようにする
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        // 初期オフセットを通常時に設定
+        currentOffset = normaloffset;
+
+        // GravityControllerを取得
+        if (target != null ) 
+        {
+            gravityController = target.GetComponent<GravityController>();
+        }
     }
 
     void Update()
@@ -41,9 +59,9 @@ public class PlayerCamera : MonoBehaviour
             return;
         }
 
-        Quaternion rotation = Quaternion.Euler(pitch, yaw, 0f);     // 回転をクォータニオンで計算
-        transform.position = target.position + rotation * offset;   // ターゲットの位置にオフセットを加えてカメラの位置を設定
-        transform.LookAt(target);                                   // ターゲットを常に見るようにする
+        Quaternion rotation = Quaternion.Euler(pitch, yaw, 0f);             // 回転をクォータニオンで計算
+        transform.position = target.position + rotation * currentOffset;    // ターゲットの位置にオフセットを加えてカメラの位置を設定
+        transform.LookAt(target);                                           // ターゲットを常に見るようにする
     }
 
     // カメラの回転をマウス入力に基づいて更新
@@ -52,5 +70,15 @@ public class PlayerCamera : MonoBehaviour
         yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
         pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
         pitch = Mathf.Clamp(pitch, pitchMin, pitchMax);
+    }
+
+    // 重力反転時のカメラオフセットを切り替えるコルーチン
+    public void OnGravityChanged(bool isReversed)
+    {
+        Vector3 targetOffset = isReversed ? reverseOffset : normaloffset;  // 目標オフセットを選択
+
+        // 現在のオフセットから目標オフセットへDOTweenで補間
+        DOTween.To(() => currentOffset, x => currentOffset = x, targetOffset, offsetDuration)
+            .SetEase(Ease.OutQuad);  // 補間のイージングを設定
     }
 }

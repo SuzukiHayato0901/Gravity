@@ -14,6 +14,8 @@ public class GravityController : MonoBehaviour
     [SerializeField] private float gravityPower = 9.81f;   // 重力の強さ
     [SerializeField] private float flipDuration = 0.3f;    // 反転アニメーションの所要時間(連打防止の間隔にも使用)
 
+    [SerializeField] private PlayerCamera playerCamera;    // プレイヤーのカメラへの参照
+
     private Rigidbody rb;                    // Rigidbodyコンポーネントへの参照
     private bool isReverseGravity = false;   // 重力が反転しているかどうかのフラグ
 
@@ -46,6 +48,9 @@ public class GravityController : MonoBehaviour
     {
         // 重力の向きフラグを反転
         isReverseGravity = !isReverseGravity;
+
+        // カメラにも重力反転を通知する
+        playerCamera.OnGravityChanged(isReverseGravity);
 
         // 現在のZ軸角度から+180度の位置までDOTweenで滑らかに回転させる
         transform.DORotate(
