@@ -34,13 +34,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
 
-        // マウスカーソルを非表示にする
-        Cursor.visible = false;
-
-        // マウスカーソルを画面中央にロックして動かないようにする
-        Cursor.lockState = CursorLockMode.Locked;
-
-
         DOTween.Init();
     }
 

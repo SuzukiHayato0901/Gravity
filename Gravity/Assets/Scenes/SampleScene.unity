@@ -530,7 +530,7 @@ MonoBehaviour:
   target: {fileID: 1031297017}
   offset: {x: 0, y: 5, z: -7}
   mouseSensitivity: 3
-  pitchMin: -20
+  pitchMin: -80
   pitchMax: 60
   yaw: 0
   pitch: 0
@@ -1059,8 +1059,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1d777b45eaf3694cbd20e647a967ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localGravity: {x: 0, y: 180, z: 0}
-  rbSpeed: 0
+  gravityPower: 9.81
+  flipDuration: 0.3
 --- !u!1 &1576942793
 GameObject:
   m_ObjectHideFlags: 0

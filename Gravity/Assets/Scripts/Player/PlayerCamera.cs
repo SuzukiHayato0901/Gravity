@@ -9,15 +9,28 @@ public class PlayerCamera : MonoBehaviour
 
     [Header("マウス設定")]
     public float mouseSensitivity = 3f;     // マウス感度
-    public float pitchMin = -20f;           // 上下の最小角度
+    public float pitchMin = -80f;           // 上下の最小角度
     public float pitchMax = 60f;            // 上下の最大角度
 
     public float yaw = 0f;     // 左右回転
     public float pitch = 0f;   // 上下回転
 
+    void Start()
+    {
+        // マウスカーソルを非表示にし、画面中央にロックして動かないようにする
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     void Update()
     {
         CamereMove();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.lockState = CursorLockMode.None;   // マウスのロックを解除
+            Cursor.visible = true;                    // マウスカーソルを表示
+        }
     }
 
     void LateUpdate()
