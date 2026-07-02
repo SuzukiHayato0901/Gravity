@@ -6,7 +6,6 @@ public class PlayerCamera : MonoBehaviour
     [Header("ターゲット設定")]
     [SerializeField] GameObject player;                 // プレイヤーオブジェクト
     public Transform target;                            // プレイヤーのTransformを格納
-    public Vector3 offset = new Vector3(0f, 3f, -5f);   // カメラの位置オフセット
 
     [Header("マウス設定")]
     public float mouseSensitivity = 3f;     // マウス感度
@@ -14,8 +13,8 @@ public class PlayerCamera : MonoBehaviour
     public float pitchMax = 60f;            // 上下の最大角度
 
     [Header("カメラオフセット")]
-    [SerializeField] private Vector3 normaloffset = new Vector3(0f, 3f, -5f);   // 通常時のカメラオフセット
-    [SerializeField] private Vector3 reverseOffset = new Vector3(0f, -3f, -5f);  // 重力反転時のカメラオフセット
+    [SerializeField] private Vector3 normaloffset = new Vector3(0f, 5f, -7f);   // 通常時のカメラオフセット
+    [SerializeField] private Vector3 reverseOffset = new Vector3(0f, -5f, -7f);  // 重力反転時のカメラオフセット
     [SerializeField] private float offsetDuration = 0.5f;                       // オフセットの切り替えにかかる時間
 
     public float yaw = 0f;     // 左右回転

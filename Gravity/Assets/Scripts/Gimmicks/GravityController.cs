@@ -18,6 +18,7 @@ public class GravityController : MonoBehaviour
 
     private Rigidbody rb;                    // Rigidbodyコンポーネントへの参照
     private bool isReverseGravity = false;   // 重力が反転しているかどうかのフラグ
+    public bool IsReverseGravity => isReverseGravity; // 外部から参照できるプロパティ
 
     private void Start()
     {

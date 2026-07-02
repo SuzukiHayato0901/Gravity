@@ -9,7 +9,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float moveSpeed = 10f;         // 移動速度
     [SerializeField] float jumpForce = 5f;          // ジャンプの力
     [SerializeField] float rotationDuration = 0.2f; // 振り向き速度
-    [SerializeField]  PlayerCamera playerCamera;     // カメラの参照
+    [SerializeField] PlayerCamera playerCamera;     // カメラの参照
+
+    [SerializeField] private Transform playerModel;
+    [SerializeField] private GravityController gravityController; // 重力制御クラスの参照
 
     // 入力
     private InputAction moveAction;     // 移動入力アクション
@@ -32,7 +35,9 @@ public class PlayerController : MonoBehaviour
 
         // リジッドボディとアニメーターの取得
         rb = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        animator = playerModel.GetComponent<Animator>();
+
+        Debug.Log("Animator:" + animator);
 
         DOTween.Init();
     }
@@ -72,9 +77,13 @@ public class PlayerController : MonoBehaviour
             // 同じ方向なら回転しない
             if ((direction - lastMoveInput).sqrMagnitude > 0.001f)
             {
-                transform.DOKill();
+                playerModel.DOKill();
 
-                transform.DORotateQuaternion(Quaternion.LookRotation(direction), rotationDuration);
+                // プレイヤーモデルのローカル方向を計算
+                Vector3 localDirection = playerModel.parent.InverseTransformDirection(direction);
+                Quaternion targetRotation = Quaternion.LookRotation(localDirection);
+
+                playerModel.DOLocalRotateQuaternion(Quaternion.LookRotation(direction), rotationDuration);
 
                 lastMoveInput = direction;
             }
@@ -84,9 +93,11 @@ public class PlayerController : MonoBehaviour
     // アニメーション
     private void UpdateAnimation(Vector3 direction)
     {
-        animator.SetBool("Run", direction.sqrMagnitude > 0.01f);
+        Debug.Log("direction: " + direction);
 
+        animator.SetBool("Run", direction.sqrMagnitude > 0.01f);
         animator.SetBool("Jump", !isGrounded);
+        animator.SetBool("Reverse", gravityController.IsReverseGravity);
     }
 
     private void Update()
