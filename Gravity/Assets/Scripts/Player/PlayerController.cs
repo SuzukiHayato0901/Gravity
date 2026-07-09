@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour
     // アニメーション
     private void UpdateAnimation(Vector3 direction)
     {
-        Debug.Log("direction: " + direction);
+        //Debug.Log("direction: " + direction);
 
         animator.SetBool("Run", direction.sqrMagnitude > 0.01f);
         animator.SetBool("Jump", !isGrounded);
