@@ -1,39 +1,41 @@
+// PlayerCamera.cs
 using UnityEngine;
 using DG.Tweening;
 
 public class PlayerCamera : MonoBehaviour
 {
     [Header("ターゲット設定")]
-    [SerializeField] GameObject player;                 // プレイヤーオブジェクト
-    public Transform target;                            // プレイヤーのTransformを格納
+    [SerializeField] GameObject player;
+    public Transform target;
 
     [Header("マウス設定")]
-    public float mouseSensitivity = 3f;     // マウス感度
-    public float pitchMin = -80f;           // 上下の最小角度
-    public float pitchMax = 60f;            // 上下の最大角度
+    public float mouseSensitivity = 3f;
+    public float pitchMin = -80f;
+    public float pitchMax = 60f;
 
     [Header("カメラオフセット")]
     [SerializeField] private Vector3 normaloffset = new Vector3(0f, 5f, -7f);    // 通常時のカメラオフセット
     [SerializeField] private Vector3 reverseOffset = new Vector3(0f, -5f, -7f);  // 重力反転時のカメラオフセット
     [SerializeField] private float offsetDuration = 0.5f;                        // オフセットの切り替えにかかる時間
 
-    public float yaw = 0f;      // 左右回転
-    public float pitch = 0f;    // 上下回転
+    [Header("箱追従設定")]
+    [SerializeField] private float cameraRotateDuration = 0.5f;  // カメラが箱の反対側に回り込む速度
 
-    private Vector3 currentOffset;              // 現在のカメラオフセット
-    private GravityController gravityController; // 重力制御クラスの参照
-    private bool isCameraEnabled = true;         // カメラ操作の有効/無効フラグ
+    public float yaw = 0f;
+    public float pitch = 0f;
+
+    private Vector3 currentOffset;
+    private GravityController gravityController;
+    private bool isCameraEnabled = true;
+    //private bool isFollowingBox = false;    // 箱追従モード中かどうかのフラグ
 
     void Start()
     {
-        // マウスカーソルを非表示にし、画面中央にロックして動かないようにする
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        // 初期オフセットを通常時に設定
         currentOffset = normaloffset;
 
-        // GravityControllerを取得
         if (target != null)
         {
             gravityController = target.GetComponent<GravityController>();
@@ -46,25 +48,23 @@ public class PlayerCamera : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Cursor.lockState = CursorLockMode.None;   // マウスのロックを解除
-            Cursor.visible = true;                    // マウスカーソルを表示
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 
     void LateUpdate()
     {
-        // ターゲットが設定されていない場合は処理を中断
         if (target == null) return;
 
-        Quaternion rotation = Quaternion.Euler(pitch, yaw, 0f);             // 回転をクォータニオンで計算
-        transform.position = target.position + rotation * currentOffset;    // ターゲットの位置にオフセットを加えてカメラの位置を設定
-        transform.LookAt(target);                                           // ターゲットを常に見るようにする
+        Quaternion rotation = Quaternion.Euler(pitch, yaw, 0f);
+        transform.position = target.position + rotation * currentOffset;
+        transform.LookAt(target);
     }
 
-    // カメラの回転をマウス入力に基づいて更新
     void CamereMove()
     {
-        if (!isCameraEnabled) return; // カメラ操作が無効なら処理しない
+        if (!isCameraEnabled) return;
 
         yaw += Input.GetAxis("Mouse X") * mouseSensitivity;
         pitch -= Input.GetAxis("Mouse Y") * mouseSensitivity;
@@ -74,16 +74,35 @@ public class PlayerCamera : MonoBehaviour
     // 重力反転時のカメラオフセットを切り替えるメソッド
     public void OnGravityChanged(bool isReversed)
     {
-        Vector3 targetOffset = isReversed ? reverseOffset : normaloffset;   // 目標オフセットを選択
+        Vector3 targetOffset = isReversed ? reverseOffset : normaloffset;
 
-        // 現在のオフセットから目標オフセットへDOTweenで補間
         DOTween.To(() => currentOffset, x => currentOffset = x, targetOffset, offsetDuration)
-            .SetEase(Ease.OutQuad);  // 補間のイージングを設定
+            .SetEase(Ease.OutQuad);
     }
 
     // 外部からカメラ操作を有効/無効にするメソッド
     public void SetCameraEnabled(bool enabled)
     {
         isCameraEnabled = enabled;
+    }
+
+    // 箱の位置に応じてカメラをプレイヤーの反対側に回り込ませるメソッド
+    public void TrackBoxPosition(Vector3 boxPosition)
+    {
+        if (target == null) return;
+
+        // プレイヤーから箱への方向をXZ平面で計算
+        Vector3 toBox = boxPosition - target.position;
+        toBox.y = 0f;
+
+        if (toBox.sqrMagnitude < 0.01f) return; // 箱がプレイヤーと同位置なら無視
+
+        // 箱の反対方向のyaw角度を計算
+        Vector3 cameraDirection = -toBox.normalized;
+        float targetYaw = Mathf.Atan2(cameraDirection.x, cameraDirection.z) * Mathf.Rad2Deg;
+
+        // DOTweenで滑らかにyawを回転
+        DOTween.To(() => yaw, x => yaw = x, targetYaw, cameraRotateDuration)
+            .SetEase(Ease.OutQuad);
     }
 }
