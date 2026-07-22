@@ -97,11 +97,12 @@ public class PlayerCamera : MonoBehaviour
 
         if (toBox.sqrMagnitude < 0.01f) return; // 箱がプレイヤーと同位置なら無視
 
-        // 箱の反対方向のyaw角度を計算
-        Vector3 cameraDirection = -toBox.normalized;
+        // 符号を反転。プレイヤー→カメラの向きが「箱と反対方向」になるよう修正
+        // (offsetがローカル-Z方向のため、forward(yaw)はtoBoxと同じ向きにする必要がある)
+        Vector3 cameraDirection = toBox.normalized;
         float targetYaw = Mathf.Atan2(cameraDirection.x, cameraDirection.z) * Mathf.Rad2Deg;
 
-        // DOTweenで滑らかにyawを回転
+        // DOTweenで滑らかにyaw回転
         DOTween.To(() => yaw, x => yaw = x, targetYaw, cameraRotateDuration)
             .SetEase(Ease.OutQuad);
     }

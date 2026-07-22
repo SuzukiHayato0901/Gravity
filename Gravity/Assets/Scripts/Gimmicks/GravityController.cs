@@ -18,7 +18,9 @@ public class GravityController : MonoBehaviour
 
     private Rigidbody rb;                    // Rigidbodyコンポーネントへの参照
     private bool isReverseGravity = false;   // 重力が反転しているかどうかのフラグ
-    public bool IsReverseGravity => isReverseGravity; // 外部から参照できるプロパティ
+    public bool IsReverseGravity => isReverseGravity;   // 外部から参照できるプロパティ
+    private bool isFlipping = false;                    // 
+    public bool IsFlipping => isFlipping;               // 
 
     private void Start()
     {
@@ -47,6 +49,8 @@ public class GravityController : MonoBehaviour
     // 重力の向きを反転させ、プレイヤーの見た目も回転させるメソッド
     private void ChangeGravity()
     {
+        isFlipping = true;      // 重力反転中フラグを立てる
+
         // 重力の向きフラグを反転
         isReverseGravity = !isReverseGravity;
 
@@ -58,6 +62,11 @@ public class GravityController : MonoBehaviour
             new Vector3(0f, 0f, transform.eulerAngles.z + 180f), // 目標角度(現在角度+180度)
             flipDuration,                                         // アニメーション時間
             RotateMode.FastBeyond360                              // 360度を超える回転も正しく補間する設定
-        ).SetEase(Ease.OutQuad); // 終盤で減速するイージングで自然な動きにする
+        ).SetEase(Ease.OutQuad)                                   // 終盤で減速するイージングで自然な動きにする
+        .OnComplete(() =>
+         {
+             // 反転終了
+             isFlipping = false;
+         });
     }
 }

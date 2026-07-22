@@ -23,7 +23,6 @@ public class GravityBoxSelector : MonoBehaviour
 
     private Collider selectedBoxCollider;   // 選択中の箱のCollider(Linecast判定除外用)
     private Vector3 targetVelocity;         // SmoothDamp用の内部速度バッファ(ノイズ低減用)
-    // ★削除:selectedBoxRigidbody(isKinematic制御用だったが、地面めり込みの原因のため削除)
 
     private void Start()
     {
@@ -44,7 +43,6 @@ public class GravityBoxSelector : MonoBehaviour
             case State.Controlled:
                 HandleMove();
                 HandleDepthMove();
-                // LimitRangeはHandleMove内でtargetPosition確定時に適用するためここでは呼ばない
                 break;
         }
     }
@@ -92,7 +90,6 @@ public class GravityBoxSelector : MonoBehaviour
 
         // Linecast除外用に参照を取得
         selectedBoxCollider = selectedBox.GetComponent<Collider>();
-        // ★削除:Rigidbody取得・isKinematic=true化(地面めり込みの原因だったため)
 
         targetVelocity = Vector3.zero;  // SmoothDampの速度バッファを初期化
 
@@ -106,7 +103,6 @@ public class GravityBoxSelector : MonoBehaviour
         {
             selectedBox.transform.DOKill();             // 実行中のTweenを停止
             selectedBox.SetSelected(false);             // 発光OFF
-            // ★削除:isKinematicを戻す処理(不要になったため削除)
         }
         selectedBox = null;
         selectedBoxCollider = null;   // 参照をクリア
