@@ -48,6 +48,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1302011716751864583, guid: 7e57c3c25c3e7524dab9bfdd99e54deb, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.18
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7e57c3c25c3e7524dab9bfdd99e54deb, type: 3}
       propertyPath: m_Name
       value: SK_Gate
