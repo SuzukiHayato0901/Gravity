@@ -4,30 +4,30 @@ using DG.Tweening;
 using UniRx;
 
 /// <summary>
-/// ƒvƒŒƒCƒ„[‚Ìd—Í•ûŒü‚ğ§Œä‚·‚éƒNƒ‰ƒXB
-/// RƒL[‚Åd—Í‚ğ”½“]‚³‚¹A‚»‚ê‚É‡‚í‚¹‚ÄƒvƒŒƒCƒ„[‚ÌŒ©‚½–Ú‚à‰ñ“]‚³‚¹‚éB
+/// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½Ìdï¿½Í•ï¿½ï¿½ï¿½ï¿½ğ§Œä‚·ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½B
+/// Rï¿½Lï¿½[ï¿½Ådï¿½Í‚ğ”½“]ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½Éï¿½ï¿½í‚¹ï¿½Äƒvï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÌŒï¿½ï¿½ï¿½ï¿½Ú‚ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½B
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
 public class GravityController : MonoBehaviour
 {
-    [Header("d—Íİ’è")]
-    [SerializeField] private float gravityPower = 9.81f;   // d—Í‚Ì‹­‚³
-    [SerializeField] private float flipDuration = 0.3f;    // ”½“]ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌŠ—vŠÔ(˜A‘Å–h~‚ÌŠÔŠu‚É‚àg—p)
+    [Header("ï¿½dï¿½Íİ’ï¿½")]
+    [SerializeField] private float gravityPower = 9.81f;   // ï¿½dï¿½Í‚Ì‹ï¿½ï¿½ï¿½
+    [SerializeField] private float flipDuration = 0.3f;    // ï¿½ï¿½ï¿½]ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ìï¿½ï¿½vï¿½ï¿½ï¿½ï¿½(ï¿½Aï¿½Å–hï¿½~ï¿½ÌŠÔŠuï¿½É‚ï¿½ï¿½gï¿½p)
 
-    [SerializeField] private PlayerCamera playerCamera;    // ƒvƒŒƒCƒ„[‚ÌƒJƒƒ‰‚Ö‚ÌQÆ
+    [SerializeField] private PlayerCamera playerCamera;    // ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÌƒJï¿½ï¿½ï¿½ï¿½ï¿½Ö‚ÌQï¿½ï¿½
 
-    private Rigidbody rb;                    // RigidbodyƒRƒ“ƒ|[ƒlƒ“ƒg‚Ö‚ÌQÆ
-    private bool isReverseGravity = false;   // d—Í‚ª”½“]‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
-    public bool IsReverseGravity => isReverseGravity;   // ŠO•”‚©‚çQÆ‚Å‚«‚éƒvƒƒpƒeƒB
+    private Rigidbody rb;                    // Rigidbodyï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½gï¿½Ö‚ÌQï¿½ï¿½
+    private bool isReverseGravity = false;   // ï¿½dï¿½Í‚ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½é‚©ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½Ìƒtï¿½ï¿½ï¿½O
+    public bool IsReverseGravity => isReverseGravity;   // ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Qï¿½Æ‚Å‚ï¿½ï¿½ï¿½vï¿½ï¿½ï¿½pï¿½eï¿½B
     private bool isFlipping = false;                    // 
     public bool IsFlipping => isFlipping;               // 
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.useGravity = false; // Unity•W€‚Ìd—Í‚ğØ‚èA©‘O‚Åd—Í‚ğŒvZ‚·‚é
+        rb.useGravity = false; // Unityï¿½Wï¿½ï¿½ï¿½Ìdï¿½Í‚ï¿½Ø‚ï¿½Aï¿½ï¿½ï¿½Oï¿½Ådï¿½Í‚ï¿½ï¿½vï¿½Zï¿½ï¿½ï¿½ï¿½
 
-        // RƒL[‚Ì“ü—Í‚ğŠÄ‹‚·‚éƒXƒgƒŠ[ƒ€‚ğì¬
+        // Rï¿½Lï¿½[ï¿½Ì“ï¿½ï¿½Í‚ï¿½ï¿½Äï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ì¬
         Observable.EveryUpdate().Where(_ => Keyboard.current.rKey.wasPressedThisFrame).ThrottleFirst(System.TimeSpan.FromSeconds(flipDuration)).Subscribe(_ => ChangeGravity()).AddTo(this);
     }
 
@@ -36,37 +36,48 @@ public class GravityController : MonoBehaviour
         ApplyGravity();
     }
 
-    // Œ»İ‚Ìd—Í•ûŒü‚É‰‚¶‚ÄƒvƒŒƒCƒ„[‚É—Í‚ğ‰Á‚¦‚é
+    // ï¿½ï¿½ï¿½İ‚Ìdï¿½Í•ï¿½ï¿½ï¿½ï¿½É‰ï¿½ï¿½ï¿½ï¿½Äƒvï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½É—Í‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private void ApplyGravity()
     {
-        // ”½“]ƒtƒ‰ƒO‚É‰‚¶‚Äd—Í‚ÌŒü‚«‚ğŒˆ’è(”½“]‚ÍãŒü‚«)
+        // ï¿½ï¿½ï¿½]ï¿½tï¿½ï¿½ï¿½Oï¿½É‰ï¿½ï¿½ï¿½ï¿½Ädï¿½Í‚ÌŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½Íï¿½ï¿½ï¿½ï¿½)
         Vector3 gravityDirection = isReverseGravity ? Vector3.up : Vector3.down;
 
-        // ‰Á‘¬“x‚Æ‚µ‚Ä—Í‚ğ‰Á‚¦‚é(¿—Ê‚ÉˆË‘¶‚³‚¹‚¸Aí‚É“¯‚¶—‰º‰Á‘¬“x‚É‚·‚é)
+        // ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½Æ‚ï¿½ï¿½Ä—Í‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Ê‚ÉˆË‘ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½É“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xï¿½É‚ï¿½ï¿½ï¿½)
         rb.AddForce(gravityDirection * gravityPower, ForceMode.Acceleration);
     }
 
-    // d—Í‚ÌŒü‚«‚ğ”½“]‚³‚¹AƒvƒŒƒCƒ„[‚ÌŒ©‚½–Ú‚à‰ñ“]‚³‚¹‚éƒƒ\ƒbƒh
+    // ï¿½dï¿½Í‚ÌŒï¿½ï¿½ï¿½ï¿½ğ”½“]ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÌŒï¿½ï¿½ï¿½ï¿½Ú‚ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½éƒï¿½\ï¿½bï¿½h
     private void ChangeGravity()
     {
-        isFlipping = true;      // d—Í”½“]’†ƒtƒ‰ƒO‚ğ—§‚Ä‚é
+        isFlipping = true;      // ï¿½dï¿½Í”ï¿½ï¿½]ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ğ—§‚Ä‚ï¿½
 
-        // d—Í‚ÌŒü‚«ƒtƒ‰ƒO‚ğ”½“]
+        // ï¿½dï¿½Í‚ÌŒï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½Oï¿½ğ”½“]
         isReverseGravity = !isReverseGravity;
 
-        // ƒJƒƒ‰‚É‚àd—Í”½“]‚ğ’Ê’m‚·‚é
+        // ï¿½Jï¿½ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½dï¿½Í”ï¿½ï¿½]ï¿½ï¿½Ê’mï¿½ï¿½ï¿½ï¿½
         playerCamera.OnGravityChanged(isReverseGravity);
 
-        // Œ»İ‚ÌZ²Šp“x‚©‚ç+180“x‚ÌˆÊ’u‚Ü‚ÅDOTween‚ÅŠŠ‚ç‚©‚É‰ñ“]‚³‚¹‚é
+        // ï¿½ï¿½ï¿½İ‚ï¿½Zï¿½ï¿½ï¿½pï¿½xï¿½ï¿½ï¿½ï¿½+180ï¿½xï¿½ÌˆÊ’uï¿½Ü‚ï¿½DOTweenï¿½ÅŠï¿½ï¿½ç‚©ï¿½É‰ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         transform.DORotate(
-            new Vector3(0f, 0f, transform.eulerAngles.z + 180f), // –Ú•WŠp“x(Œ»İŠp“x+180“x)
-            flipDuration,                                         // ƒAƒjƒ[ƒVƒ‡ƒ“ŠÔ
-            RotateMode.FastBeyond360                              // 360“x‚ğ’´‚¦‚é‰ñ“]‚à³‚µ‚­•âŠÔ‚·‚éİ’è
-        ).SetEase(Ease.OutQuad)                                   // I”Õ‚ÅŒ¸‘¬‚·‚éƒC[ƒWƒ“ƒO‚Å©‘R‚È“®‚«‚É‚·‚é
+            new Vector3(0f, 0f, transform.eulerAngles.z + 180f), // ï¿½Ú•Wï¿½pï¿½x(ï¿½ï¿½ï¿½İŠpï¿½x+180ï¿½x)
+            flipDuration,                                         // ï¿½Aï¿½jï¿½ï¿½ï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            RotateMode.FastBeyond360                              // 360ï¿½xï¿½ğ’´‚ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½İ’ï¿½
+        ).SetEase(Ease.OutQuad)                                   // ï¿½Iï¿½Õ‚ÅŒï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½[ï¿½Wï¿½ï¿½ï¿½Oï¿½Åï¿½ï¿½Rï¿½È“ï¿½ï¿½ï¿½ï¿½É‚ï¿½ï¿½ï¿½
         .OnComplete(() =>
          {
-             // ”½“]I—¹
+             // ï¿½ï¿½ï¿½]ï¿½Iï¿½ï¿½
              isFlipping = false;
          });
+    }
+
+    // é‡åŠ›ã‚’åˆæœŸçŠ¶æ…‹ã«æˆ»ã™ãƒ¡ã‚½ãƒƒãƒ‰
+    public void ResetGravity()
+    {
+        isReverseGravity = false;
+        playerCamera.OnGravityChanged(false);
+
+        // Zè»¸å›è»¢ã‚’0ã«æˆ»ã™
+        transform.DORotate(new Vector3(0f, transform.eulerAngles.y, 0f), flipDuration)
+        .SetEase(Ease.OutQuad);
     }
 }

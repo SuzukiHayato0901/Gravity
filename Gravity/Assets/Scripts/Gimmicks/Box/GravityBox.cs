@@ -1,18 +1,18 @@
 // GravityBox.cs
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]       // RigidbodyƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ•K{‚É‚·‚é
-[RequireComponent(typeof(BoxCollider))]     // BoxColliderƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ•K{‚É‚·‚é
-[RequireComponent(typeof(Renderer))]        // RendererƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ•K{‚É‚·‚é
+[RequireComponent(typeof(Rigidbody))]       // Rigidbodyï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½gï¿½ï¿½Kï¿½{ï¿½É‚ï¿½ï¿½ï¿½
+[RequireComponent(typeof(BoxCollider))]     // BoxColliderï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½gï¿½ï¿½Kï¿½{ï¿½É‚ï¿½ï¿½ï¿½
+[RequireComponent(typeof(Renderer))]        // Rendererï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½gï¿½ï¿½Kï¿½{ï¿½É‚ï¿½ï¿½ï¿½
 public class GravityBox : MonoBehaviour
 {
-    [Header("”­Œõİ’è")]
-    [SerializeField] private Color emissionColor = Color.cyan;   // ”­ŒõF
-    [SerializeField] private float emissionIntensity = 2f;       // ”­Œõ‹­“x
+    [Header("ï¿½ï¿½ï¿½ï¿½ï¿½İ’ï¿½")]
+    [SerializeField] private Color emissionColor = Color.cyan;   // ï¿½ï¿½ï¿½ï¿½ï¿½F
+    [SerializeField] private float emissionIntensity = 2f;       // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½x
 
-    private Rigidbody rb;               // RigidbodyƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌQÆ
-    private Renderer rd;                // RendererƒRƒ“ƒ|[ƒlƒ“ƒg‚ÌQÆ
-    private bool isSelected = false;    // ‘I‘ğó‘Ô‚ğ¦‚·ƒtƒ‰ƒO
+    private Rigidbody rb;               // Rigidbodyï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½gï¿½ÌQï¿½ï¿½
+    private Renderer rd;                // Rendererï¿½Rï¿½ï¿½ï¿½|ï¿½[ï¿½lï¿½ï¿½ï¿½gï¿½ÌQï¿½ï¿½
+    private bool isSelected = false;    // ï¿½Iï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tï¿½ï¿½ï¿½O
 
     private void Awake()
     {
@@ -22,16 +22,16 @@ public class GravityBox : MonoBehaviour
 
     public void SetSelected(bool selected)
     {
-        isSelected = selected;          // ‘I‘ğó‘Ô‚ğXV
-        rb.useGravity = !selected;      // ‘I‘ğó‘Ô‚É‰‚¶‚Äd—Í‚ğ—LŒø/–³Œø‰»
+        isSelected = selected;          // ï¿½Iï¿½ï¿½ï¿½ï¿½Ô‚ï¿½ï¿½Xï¿½V
+        rb.useGravity = !selected;      // ï¿½Iï¿½ï¿½ï¿½ï¿½Ô‚É‰ï¿½ï¿½ï¿½ï¿½Ädï¿½Í‚ï¿½Lï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
         if (isSelected)
         {
-            rb.linearVelocity = Vector3.zero;   // ‘¬“x‚ğƒŠƒZƒbƒg‚µ‚Ä‹ó’†Ã~
-            rb.linearDamping = 0f;              // ‘I‘ğó‘Ô‚Ì‚Æ‚«‚ÍŒ¸Š‚ğ–³Œø‰»
+            rb.linearVelocity = Vector3.zero;   // ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½Ä‹ó’†Ã~
+            rb.linearDamping = 0f;              // ï¿½Iï¿½ï¿½ï¿½ï¿½Ô‚Ì‚Æ‚ï¿½ï¿½ÍŒï¿½ï¿½ï¿½ï¿½ğ–³Œï¿½ï¿½ï¿½
         }
 
-        SetEmission(isSelected);        // ‘I‘ğó‘Ô‚É‰‚¶‚Ä”­Œõ‚ğØ‚è‘Ö‚¦‚é
+        SetEmission(isSelected);        // ï¿½Iï¿½ï¿½ï¿½ï¿½Ô‚É‰ï¿½ï¿½ï¿½ï¿½Ä”ï¿½ï¿½ï¿½ï¿½ï¿½Ø‚ï¿½Ö‚ï¿½ï¿½ï¿½
     }
 
     private void SetEmission(bool enable)
@@ -40,12 +40,24 @@ public class GravityBox : MonoBehaviour
 
         if (enable)
         {
-            mat.EnableKeyword("_EMISSION");                                         // ”­Œõ‚ğ—LŒø‰»
-            mat.SetColor("_EmissionColor", emissionColor * emissionIntensity);      // ”­ŒõF‚Æ‹­“x‚ğİ’è
+            mat.EnableKeyword("_EMISSION");                                         // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½ï¿½ï¿½ï¿½
+            mat.SetColor("_EmissionColor", emissionColor * emissionIntensity);      // ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Æ‹ï¿½ï¿½xï¿½ï¿½İ’ï¿½
         }
         else
         {
-            mat.DisableKeyword("_EMISSION");    // ”­Œõ‚ğ–³Œø‰»
+            mat.DisableKeyword("_EMISSION");    // ï¿½ï¿½ï¿½ï¿½ï¿½ğ–³Œï¿½ï¿½ï¿½
         }
+    }
+
+    // GravityBoxã®çŠ¶æ…‹ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
+    public void ResetState()
+    {
+        // é¸æŠçŠ¶æ…‹ã‚’è§£é™¤
+        SetSelected(false);
+
+        // é‡åŠ›ã‚’æœ‰åŠ¹åŒ–ã—ã¦é€šå¸¸çŠ¶æ…‹ã«æˆ»ã™
+        rb.useGravity = true;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
     }
 }
