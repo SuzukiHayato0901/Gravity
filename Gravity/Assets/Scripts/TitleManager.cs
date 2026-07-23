@@ -32,4 +32,11 @@ public class TitleManager : MonoBehaviour
         Application.Quit();
 #endif
     }
+
+    // ƒ^ƒCƒgƒ‹‚É–ß‚é
+    public void BackToTitle()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("TitleScene");
+    }
 }
