@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 28
-  productGUID: 1c707133097d4f0498ab6e74c2153fac
+  productGUID: 0a1f2bb62df763f4bb13dd6f410630fe
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -143,8 +143,7 @@ PlayerSettings:
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
   bundleVersion: 0.1.0
-  preloadedAssets:
-  - {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -940,10 +939,10 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 6371ba33-185f-4be2-a3c0-d58bb9f971a9
+  cloudProjectId: 2d9dc23d-e317-4419-938a-0a06de3313c3
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Gravity
+  projectName: Gravity 2026-07-23_13-59-19
   organizationId: lingmusadou912
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0

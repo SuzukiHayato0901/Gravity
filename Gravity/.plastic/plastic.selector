@@ -1,4 +1,0 @@
-repository "Gravity/Gravity@15669598692699@cloud"
-  path "/"
-    br "/main"
-    co "/main"
